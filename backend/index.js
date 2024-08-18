@@ -2,10 +2,9 @@ const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
 const port = 9000;
+require('dotenv').config()
 mongoose
-  .connect(
-    "mongodb+srv://nowara8194:qdlS6tysvpSN1GXS@cluster02.6cbc2.mongodb.net/?retryWrites=true&w=majority&appName=Cluster02"
-  )
+  .connect(process.env.MONGODB_ATLAS_API_KEY)
   .then(() => {
     console.log("\nsuccessfully connected to DB");
     app.listen(port, () => {
