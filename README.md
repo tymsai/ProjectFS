@@ -1,7 +1,6 @@
 A fullstack Chat Application
 
 ==> 
-    +++++++++++++++++++++++++
 
     After login/signup
     -------------------------
@@ -22,7 +21,6 @@ A fullstack Chat Application
     Process = simply get hold on username & card, render the details of the respective mapped card from left to right
             = after pressing input/send button trigger events to add message to queue/table/db with timestamp (senderID, receiverID, timestamp, chat-ID attribute)
             = there whould be a close button to close the current chat
-    +++++++++++++++++++++++++
 
-    info
-    > there will be no seperate page for user profile/settings, everything should be handeled by dialogue boxes only
+info
+> there will be no seperate page for user profile/settings, everything should be handeled by dialogue boxes only
