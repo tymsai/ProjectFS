@@ -2,7 +2,7 @@ import React from 'react'
 import Header from './commons/header'
 import ChatUi from './chatUi/uiLayout'
 function main() {
-  return (
+  return ( 
     <div>
         <Header/>
         <ChatUi/>
