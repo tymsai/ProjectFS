@@ -16,12 +16,14 @@ export default function signinup(props: any) {
   const [password, setPassword] = useState("");
   function handelSubmit() {
     const details={
-      username: {username},
-      email: {email},
-      password: {password},
+      username: username,
+      email: email,
+      password: password,
     }
-    const satus=verificationApi(details)
-    props.auth(satus)
+    if(details.username!="" && details.email!="" && details.password!=""){
+      const result=verificationApi(details)
+      props.auth(result)
+    }
   }
   return (
     <div className="flex min-h-[100dvh] flex-col items-center justify-center bg-background px-4 py-12 sm:px-6 lg:px-8">
