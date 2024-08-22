@@ -1,8 +1,8 @@
 const signinRequest = async (req, res)=>{
     try{
         //const body=req.body
-        console.log(req)
-        return res.json({"verification": "signin req reached"});
+        console.log(req.body)
+        return res.json({"verification": "true"});
     }catch (error){
         return res.error
     }
@@ -10,8 +10,8 @@ const signinRequest = async (req, res)=>{
 const forgetpassRequest=async(req, res)=>{
     try{
         //const body=req.body
-        console.log(req)
-        return res.json({"verification": "forget pass req reached"});
+        console.log(req.body)
+        return res.json({"verification": "true"});
     }catch (error){
         return res.error
     }

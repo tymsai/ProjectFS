@@ -10,16 +10,37 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-
+import axios from "axios"
+import { useDispatch } from "react-redux";
+import{valid,invalid} from '../redux/slices/authenticationSlice'
 export default function Component(props: any) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch=useDispatch();
+  
   function handelSubmit() {
     const details = {
       username: username,
       password: password,
     };
     console.log(details);
+    if (details.username!="" && details.password!=""){
+      postDetailsToSigninAPI()
+    }
+    async function postDetailsToSigninAPI() {
+      try {
+        const response = await axios.post('http://localhost:9000/signin/auth',details);
+        console.log(response.data.verification);
+        if(response.data.verification){
+          dispatch(valid())
+        }
+        if(!response.data.verification){
+          dispatch(invalid())
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
   }
 
   return (

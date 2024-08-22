@@ -10,18 +10,48 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import axios from "axios";
+import { useDispatch, UseDispatch,useSelector } from "react-redux";
+import {valid, invalid} from "../redux/slices/authenticationSlice"
+import store from '../redux/store'
 
 export default function Component(props: any) {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch=useDispatch();
   function handelSubmit() {
     const details = {
       username: username,
       email: email,
       password: password,
     };
-    console.log(details);
+    console.log("detalis sent _ ",details);
+    
+    if (details.username!="" && details.email!="" &&details.password!=""){
+      postDetailsToSignupAPI()
+    }
+    async function postDetailsToSignupAPI() {
+      try {
+        const response = await axios.post('http://localhost:9000/signup/register',details);
+        console.log(response.data.verification);
+        if(response.data.verification){
+          console.log("insidevalid");
+          console.log(store.getState())
+          dispatch(valid())
+          console.log(store.getState())
+          console.log("insidevalid2");
+        }
+        if(!response.data.verification){
+          console.log("inside_invalid");
+          dispatch(invalid())
+          console.log(store.getState())
+          console.log("inside_invalid2");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
   }
 
   return (
