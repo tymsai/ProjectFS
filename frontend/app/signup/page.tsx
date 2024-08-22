@@ -3,35 +3,34 @@
  * @see https://v0.dev/t/B1cxNpr4F0o
  * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
  */
+"use client";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import verificationApi from "./verificationApi"
-export default function signinup(props: any) {
+
+export default function Component(props: any) {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   function handelSubmit() {
-    const details={
+    const details = {
       username: username,
       email: email,
       password: password,
-    }
-    if(details.username!="" && details.email!="" && details.password!=""){
-      const result=verificationApi(details)
-      props.auth(result)
-    }
+    };
+    console.log(details);
   }
+
   return (
     <div className="flex min-h-[100dvh] flex-col items-center justify-center bg-background px-4 py-12 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-md space-y-6">
         <div className="space-y-2 text-center">
           <h1 className="text-3xl font-bold">Welcome</h1>
           <p className="text-muted-foreground">
-            Enter your credentials to access your account.
+            Enter your credentials to create your account.
           </p>
         </div>
         <form
@@ -78,12 +77,12 @@ export default function signinup(props: any) {
               </div>
             </CardContent>
             <CardFooter className="flex items-center justify-between">
-              <Link
-                href="#"
-                className="text-sm font-medium underline underline-offset-4 hover:text-primary"
-              >
-                Forgot password?
-              </Link>
+              <div>
+                Have an account ?
+                <p className="text-sm font-medium underline underline-offset-4 hover:text-primary">
+                  <Link href="../signin">SignIn</Link>
+                </p>
+              </div>
               <Button type="submit" onClick={() => handelSubmit()}>
                 Sign in
               </Button>
