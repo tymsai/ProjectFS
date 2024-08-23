@@ -7,11 +7,11 @@ const authenticationSlice = createSlice({
     name: "authentication",
     initialState,
     reducers:{
-        valid:(state)=>{
-            state.authenticationStatus=true
+        valid:(state, action)=>{
+            state.authenticationStatus=action.payload
         },
-        invalid:(state)=>{
-            state.authenticationStatus=false
+        invalid:(state, action)=>{
+            state.authenticationStatus=action.payload
         }
     }
 })

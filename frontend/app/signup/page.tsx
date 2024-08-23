@@ -11,48 +11,76 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import axios from "axios";
-import { useDispatch, UseDispatch,useSelector } from "react-redux";
-import {valid, invalid} from "../redux/slices/authenticationSlice"
-import store from '../redux/store'
+import { useDispatch, useSelector } from "react-redux";
+import { valid, invalid } from "../redux/slices/authenticationSlice";
+import store from "../redux/store";
+import { useRouter } from "next/navigation";
+import { revalidatePath } from "next/cache";
 
 export default function Component(props: any) {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const dispatch=useDispatch();
+  const dispatch = useDispatch();
+  const bit=store.getState()
+  const auth = useSelector((state) => state.authenticationStatus.authenticationStatus);
+  const router = useRouter()
+  console.log("auth - ",auth)
   function handelSubmit() {
     const details = {
       username: username,
       email: email,
       password: password,
     };
-    console.log("detalis sent _ ",details);
-    
-    if (details.username!="" && details.email!="" &&details.password!=""){
-      postDetailsToSignupAPI()
+
+    if (
+      details.username != "" &&
+      details.email != "" &&
+      details.password != ""
+    ) {
+      postDetailsToSignupAPI();
     }
+
     async function postDetailsToSignupAPI() {
       try {
-        const response = await axios.post('http://localhost:9000/signup/register',details);
-        console.log(response.data.verification);
-        if(response.data.verification){
-          console.log("insidevalid");
+        const response = await axios.post(
+          "http://localhost:9000/signup/register",
+          details
+        );
+        console.log("response from backend -", response.data.verification);
+        if (response.data.verification) {
           console.log(store.getState())
-          dispatch(valid())
+          dispatch(valid(response.data.verification));
+          
           console.log(store.getState())
-          console.log("insidevalid2");
+          //router.push('/')
         }
-        if(!response.data.verification){
-          console.log("inside_invalid");
-          dispatch(invalid())
-          console.log(store.getState())
-          console.log("inside_invalid2");
+        if (!response.data.verification) {
+          dispatch(invalid(response.data.verification));
         }
       } catch (error) {
         console.error(error);
       }
     }
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   return (
     <div className="flex min-h-[100dvh] flex-col items-center justify-center bg-background px-4 py-12 sm:px-6 lg:px-8">
