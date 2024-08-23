@@ -1,13 +1,13 @@
 "use client"
-import { useState } from 'react';
-import Main from './main'
-import Signinup from './loginUi/signinup'
+import { Provider } from 'react-redux';
+import store from './redux/store'
+import App from './app'
 export default function Home() {
-  const [verified, setverified]=useState(false)
-  const auth=(data:any)=>{setverified(data)}
-  return (
+return (
     <main>
-      {verified?<Main/>:<Signinup auth={auth}/>}
+      <Provider store={store}>
+      <App/>
+      </Provider>
     </main>
   );
 }

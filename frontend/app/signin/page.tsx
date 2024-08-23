@@ -3,28 +3,46 @@
  * @see https://v0.dev/t/B1cxNpr4F0o
  * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
  */
+"use client"
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import verificationApi from "./verificationApi"
-export default function signinup(props: any) {
-  const [email, setEmail] = useState("");
+import axios from "axios"
+import { useDispatch } from "react-redux";
+import{valid,invalid} from '../redux/slices/authenticationSlice'
+export default function Component(props: any) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch=useDispatch();
+  
   function handelSubmit() {
-    const details={
+    const details = {
       username: username,
-      email: email,
       password: password,
+    };
+    console.log(details);
+    if (details.username!="" && details.password!=""){
+      postDetailsToSigninAPI()
     }
-    if(details.username!="" && details.email!="" && details.password!=""){
-      const result=verificationApi(details)
-      props.auth(result)
+    async function postDetailsToSigninAPI() {
+      try {
+        const response = await axios.post('http://localhost:9000/signin/auth',details);
+        console.log(response.data.verification);
+        if(response.data.verification){
+          dispatch(valid())
+        }
+        if(!response.data.verification){
+          dispatch(invalid())
+        }
+      } catch (error) {
+        console.error(error);
+      }
     }
   }
+
   return (
     <div className="flex min-h-[100dvh] flex-col items-center justify-center bg-background px-4 py-12 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-md space-y-6">
@@ -53,18 +71,6 @@ export default function signinup(props: any) {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="email">email</Label>
-                <Input
-                  onChange={(e) => {
-                    setEmail(e.target.value);
-                  }}
-                  id="email"
-                  placeholder="Enter your email"
-                  required
-                />
-              </div>
-
-              <div className="space-y-2">
                 <Label htmlFor="password">Password</Label>
                 <Input
                   id="password"
@@ -78,12 +84,12 @@ export default function signinup(props: any) {
               </div>
             </CardContent>
             <CardFooter className="flex items-center justify-between">
-              <Link
-                href="#"
-                className="text-sm font-medium underline underline-offset-4 hover:text-primary"
-              >
-                Forgot password?
-              </Link>
+              <div>
+                Dont have an account ?
+                <p className="text-sm font-medium underline underline-offset-4 hover:text-primary">
+                  <Link href="../signup">SignUp</Link>
+                </p>
+              </div>
               <Button type="submit" onClick={() => handelSubmit()}>
                 Sign in
               </Button>
