@@ -19,12 +19,47 @@ const signupRequest = async (req, res)=>{
         await UserModel.create({username, email, password: hashedPassword})
         
         const token = jwt.sign({username},process.env.JWT_TOKEN_SECRET)
-        return res.json({
-            "token": token,
-            "username": username,
+        const options={
+            htppOnly: true
+        }
+        return res
+            .cookie("token",token,options)
+            .json({
+                "flow_status": "success",
+                "token": token,
+                "username": username,
+                "entry_status": true
         });
     }catch (error){
-        return res.status(400).json({ error: error.message });
+        return res
+            .status(400)
+            .json({ 
+                "error": error.message,
+                "entry_status": false,
+            }); 
     }
 }
-module.exports = {signupRequest};
+
+const signupViewdeets=async(req,res)=>{
+    try{
+        const {username}=req.body
+        const userDB=await UserModel.findOne({username})
+        
+        return res.json({
+            "email": userDB.email,
+            "username": userDB.username,
+            "password": userDB.password
+        })
+        //const alldeets=UserModel.getCollectionNames()
+    
+    }catch (error){
+        return res
+            .status(400)
+            .json({ 
+                "error": error.message,
+                "entry_status": false,
+            }); 
+    }
+}
+
+module.exports = {signupRequest,signupViewdeets};
