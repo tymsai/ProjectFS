@@ -7,6 +7,14 @@ const usercontactsmodel = new mongoose.Schema(
       ref: 'UserModel',
       required: true
     },
+    senderusername:{
+      type: String,
+      required: true
+    },
+    receiverusername: {
+      type: String,
+      required: true
+    },
     friendrequestreceiver: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'UserModel',
