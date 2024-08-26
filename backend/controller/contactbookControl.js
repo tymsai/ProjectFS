@@ -7,8 +7,12 @@ const contactbookListRequest = async (req, res)=>{
         console.log(username)
         const friendrequestsenderInDB=await UserModel.findOne({username})
         const searchResult=await ContactbookModel.find({friendrequestsender: friendrequestsenderInDB._id})
+        
+        //const way2rf=await UserModel.find({friendrequestreceiver})
         console.log(searchResult)
-        const usernames = searchResult.map(user => user.friendrequestreceiver._id);
+        //const usernamesrway=searchResult.map(user => user.friendrequestreceiver._id);
+        const usernames = searchResult.map(user => user.receiverusername);
+        console.log(usernames)
         return res.json({
             "searchResult": usernames
         })
@@ -53,16 +57,31 @@ const contactbookAddRequest=async(req,res)=>{
         const {friendrequestsender, friendrequestreceiver}=req.body
         console.log(friendrequestsender,friendrequestreceiver)
         const friendrequestsenderInDB=await UserModel.findOne({username: friendrequestsender})
+        console.log(friendrequestsenderInDB)
         const friendrequestreceiverInDB=await UserModel.findOne({username: friendrequestreceiver})
-        //console.log(friendrequestreceiverInDB._id)
-        if(friendrequestreceiver==""){
-            throw new Error("enter receiver username!")
+        console.log(friendrequestreceiverInDB)
+        const senderAPIusername = new RegExp(friendrequestsender);
+        const searchResult=await ContactbookModel.find({senderusername: {$regex: senderAPIusername}})
+        const usernames = searchResult.map(user => user.receiverusername);        
+        console.log("friends of ",friendrequestsender,"--",usernames)
+        for(var i=0; i<usernames.length; i++){
+            if(friendrequestreceiver==usernames[i]){
+                console.log("already in list")
+                throw new Error("Already in list")
+            }
         }
+        
         await ContactbookModel.create({
             friendrequestsender: friendrequestsenderInDB._id,
             senderusername: friendrequestsender,
             receiverusername: friendrequestreceiver,
             friendrequestreceiver: friendrequestreceiverInDB._id
+        })
+        await ContactbookModel.create({
+            friendrequestsender: friendrequestreceiverInDB._id,
+            senderusername: friendrequestreceiver,
+            receiverusername: friendrequestsender,
+            friendrequestreceiver: friendrequestsenderInDB._id
         })
         return res
             .json({
