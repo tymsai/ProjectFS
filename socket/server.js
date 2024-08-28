@@ -2,24 +2,26 @@ const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
 const mongoose = require('mongoose');
-require("dotenv").config();
 
 // MongoDB setup
-mongoose.connect('process.env.MONGO_API_KEY');
+mongoose.connect('mongodb+srv://jewihi6927:1234567890-=@cluster0.2rlx0.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
 
-const UsernameSchema = new mongoose.Schema({
+const UserSchema = new mongoose.Schema({
   username: String,
   socketId: String
 });
-const UserSchema = mongoose.model('UsernameSchema', UsernameSchema);
+const User = mongoose.model('User', UserSchema);
 
-const MessagesSchema = new mongoose.Schema({
-  senderUsername: String,
-  recipientUsername: String,
+const MessageSchema = new mongoose.Schema({
+  senderId: String,
+  recipientId: String,
   message: String,
   timestamp: { type: Date, default: Date.now }
 });
-const Message = mongoose.model('Message', MessagesSchema);
+const Message = mongoose.model('Message', MessageSchema);
 
 const app = express();
 const server = http.createServer(app);
@@ -34,11 +36,11 @@ io.on('connection', (socket) => {
   // Register a new user
   socket.on('register', async (username) => {
     try {
-      let user = await UserSchema.findOne({ socketId: socket.id });
+      let user = await User.findOne({ socketId: socket.id });
       if (user) {
         user.username = username;
       } else {
-        user = new UserSchema({ username, socketId: socket.id });
+        user = new User({ username, socketId: socket.id });
       }
       await user.save();
 
