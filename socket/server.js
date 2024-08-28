@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const socketIo = require('socket.io');
 
 // MongoDB setup
-mongoose.connect('mongodb+srv://jewihi6927:1234567890-=@cluster0.8vaf9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0');
+mongoose.connect('');
 
 const UserSchema = new mongoose.Schema({
   username: String,
