@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -44,11 +45,14 @@
             }
         });
 
+        // send message
         document.getElementById('send').addEventListener('click', () => {
+            const senderusername = document.getElementById('username').value;
             const recipientId = document.getElementById('recipient').value;
             const message = document.getElementById('message').value;
             if (recipientId && message) {
-                socket.emit('sendMessage', { recipientId, message });
+                console.log(senderusername)
+                socket.emit('sendMessage', { senderusername, recipientId, message });
                 document.getElementById('message').value = '';
             }
         });
@@ -83,15 +87,15 @@
         });
 
         // Receive new messages
-        socket.on('receiveMessage', ({ senderId, message }) => {
+        socket.on('receiveMessage', ({ senderId, message, senderusername }) => {
             const messagesDiv = document.getElementById('messages');
             const messageDiv = document.createElement('div');
-            messageDiv.textContent = `From ${senderId}: ${message}`;
+            messageDiv.textContent = `From ${senderId}:- ${senderusername}:- ${message}`;
             messagesDiv.appendChild(messageDiv);
         });
     </script>
 </body>
-</html>
+</html> -->
 
 
 <!-- <!DOCTYPE html>
