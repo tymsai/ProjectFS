@@ -2,16 +2,48 @@
 import React, { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 const socket = io("http://localhost:420");
-const user = "h1";
+const receiverusername = "a";
 //<script src="/socket.io/socket.io.js"></script>
 function page() {
-  const message="hello user1"
-  const [currentuser, setCurrentuser] = useState();
-  socket.emit("init",(user))
+  const [messages, setMessages] = useState("");
+  const [username, setUsername] = useState("c");
+  const [input, setInput] = useState("");
+
+  useEffect(() => {
+    console.log("hi");
+    socket.emit("init", username, receiverusername);
+    socket.emit("username", username);
+    socket.emit("receiverusername", receiverusername);
+  }, []);
+  socket.on("loadprevMessage", (info) => {
+    setMessages(info);
+    console.log("info");
+    console.log(messages)
+    // for (let index = 0; index < messages.length; index++) {
+    //   console.log(messages[index].message);
+    // }
+  });
+  function handelSubmit() {
+    console.log(input);
+    socket.emit("sendingInput", input, username, receiverusername);
+    
+  }
   return (
-    <div>
-      <h1>hi</h1>
-    </div>
+    <>
+      <div>
+      {}
+      </div>
+      <input
+        onChange={(e) => {
+          setInput(e.target.value);
+        }}
+        id="message"
+        placeholder="Enter message"
+      />
+      <button onClick={() => handelSubmit()} id="send">
+        Send
+      </button>
+    </>
   );
 }
 
