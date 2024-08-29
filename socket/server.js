@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const socketIo = require('socket.io');
 
 // MongoDB setup
-mongoose.connect('');
+mongoose.connect('mongodb+srv://jewihi6927:123456789-=@cluster0.9mvxe.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0');
 
 const UserSchema = new mongoose.Schema({
   username: String,
@@ -27,14 +27,25 @@ const io = socketIo(server,{
 });
 
 //app.use(express.static('public'));
-
+const messages={
+  "senderusername":"hello",
+  "receiverusername":"hi",
+  'content':"message content"
+}
 // When a user connects
 io.on('connection', (socket) => {
   console.log('A user connected:', socket.id);
-  socket.on("init",(message)=>{
-    await User.update()
-    console.log(message)
+  //socket.emit(messages)
+  socket.on("init",()=>{
+    socket.emit("loadprevMessage",messages)
   })
+  socket.on("username",(senderusername)=>{
+    console.log(senderusername)
+  })
+  socket.on("receiverusername",(receiverusername)=>{
+    console.log(receiverusername)
+  })
+  socket.emit("loadprevMessage","messages hi")
 });
 
 

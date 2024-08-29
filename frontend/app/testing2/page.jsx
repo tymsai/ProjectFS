@@ -1,23 +1,26 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { io } from "socket.io-client";
-const users = ["h1"];
-//<script src="/socket.io/socket.io.js"></script>
 const socket = io("http://localhost:420");
+const receiverusername = "b";
+//<script src="/socket.io/socket.io.js"></script>
 function page() {
-  const message="hello user2"
-  const [currentuser, setCurrentuser] = useState();
+  const [messages, setMessages]=useState("")
+  const [username, setUsername] = useState("a");
   useEffect(() => {
-    socket.emit("username", users);
-    socket.emit("recieveMessage", message);
-    
+    console.log("hi")
+    socket.emit("init")
+    socket.emit("username", username);
+    socket.emit("receiverusername", receiverusername);
   }, []);
-  socket.on("responseLo",(messages)=>{
+  socket.on("loadprevMessage",(info)=>{
+    setMessages(info)
+    console.log("info")
     console.log(messages)
-  })
+  });
   return (
     <>
-      <h1>hi</h1>
+      <h1>hii</h1>
     </>
   );
 }
