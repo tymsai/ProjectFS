@@ -1,0 +1,182 @@
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Socket.IO Chat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #users, #messages {
+            margin: 10px 0;
+        }
+        #messages {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Socket.IO Chat</h1>
+    <div>
+        <input id="username" placeholder="Enter username" />
+        <button id="register">Register</button>
+    </div>
+    <div>
+        <select id="recipient">
+            <option value="">Select recipient</option>
+        </select>
+        <input id="message" placeholder="Enter message" />
+        <button id="send">Send</button>
+    </div>
+    <div id="users"></div>
+    <div id="messages"></div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+
+        document.getElementById('register').addEventListener('click', () => {
+            const username = document.getElementById('username').value;
+            if (username) {
+                socket.emit('register', username);
+            }
+        });
+
+        // send message
+        document.getElementById('send').addEventListener('click', () => {
+            const senderusername = document.getElementById('username').value;
+            const recipientId = document.getElementById('recipient').value;
+            const message = document.getElementById('message').value;
+            if (recipientId && message) {
+                console.log(senderusername)
+                socket.emit('sendMessage', { senderusername, recipientId, message });
+                document.getElementById('message').value = '';
+            }
+        });
+
+        // Update user list
+        socket.on('updateUsers', (users) => {
+            const userSelect = document.getElementById('recipient');
+            const userList = document.getElementById('users');
+            userSelect.innerHTML = '<option value="">Select recipient</option>';
+            userList.innerHTML = '';
+
+            users.forEach((user) => {
+                const option = document.createElement('option');
+                option.value = user.id;
+                option.textContent = user.username;
+                userSelect.appendChild(option);
+
+                const userDiv = document.createElement('div');
+                userDiv.textContent = user.username;
+                userList.appendChild(userDiv);
+            });
+        });
+
+        // Load message history
+        socket.on('loadMessages', (messages) => {
+            const messagesDiv = document.getElementById('messages');
+            messages.forEach(msg => {
+                const messageDiv = document.createElement('div');
+                messageDiv.textContent = `From ${msg.senderId}: ${msg.message}`;
+                messagesDiv.appendChild(messageDiv);
+            });
+        });
+
+        // Receive new messages
+        socket.on('receiveMessage', ({ senderId, message, senderusername }) => {
+            const messagesDiv = document.getElementById('messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.textContent = `From ${senderId}:- ${senderusername}:- ${message}`;
+            messagesDiv.appendChild(messageDiv);
+        });
+    </script>
+</body>
+</html> -->
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Socket.IO Chat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #users, #messages {
+            margin: 10px 0;
+        }
+        #messages {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Socket.IO Chat</h1>
+    <div>
+        <input id="username" placeholder="Enter username" />
+        <button id="register">Register</button>
+    </div>
+    <div>
+        <select id="recipient">
+            <option value="">Select recipient</option>
+        </select>
+        <input id="message" placeholder="Enter message" />
+        <button id="send">Send</button>
+    </div>
+    <div id="users"></div>
+    <div id="messages"></div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+
+        document.getElementById('register').addEventListener('click', () => {
+            const username = document.getElementById('username').value;
+            if (username) {
+                socket.emit('register', username);
+            }
+        });
+
+        document.getElementById('send').addEventListener('click', () => {
+            const recipientId = document.getElementById('recipient').value;
+            const message = document.getElementById('message').value;
+            if (recipientId && message) {
+                socket.emit('sendMessage', { recipientId, message });
+                document.getElementById('message').value = '';
+            }
+        });
+
+        socket.on('updateUsers', (users) => {
+            const userSelect = document.getElementById('recipient');
+            const userList = document.getElementById('users');
+            userSelect.innerHTML = '<option value="">Select recipient</option>';
+            userList.innerHTML = '';
+
+            users.forEach((user) => {
+                const option = document.createElement('option');
+                option.value = user.id;
+                option.textContent = user.username;
+                userSelect.appendChild(option);
+
+                const userDiv = document.createElement('div');
+                userDiv.textContent = user.username;
+                userList.appendChild(userDiv);
+            });
+        });
+
+        socket.on('receiveMessage', ({ senderId, message, senderUsername }) => {
+            const messagesDiv = document.getElementById('messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.textContent = `From ${senderUsername} (${senderId}): ${message}`;
+            messagesDiv.appendChild(messageDiv);
+        });
+    </script>
+</body>
+</html> -->

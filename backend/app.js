@@ -1,3 +1,4 @@
+/*
 const express = require("express");
 const cors =require("cors")
 const signinRouter = require("./routes/signinRoute")
@@ -19,3 +20,4 @@ app.get("/", (req, res) => {
 });
 
 module.exports=app;
+*/
