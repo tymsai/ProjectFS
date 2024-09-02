@@ -4,9 +4,7 @@ const mongoose = require("mongoose");
 const socketIo = require("socket.io");
 
 // MongoDB setup
-mongoose.connect(
-  ""
-);
+mongoose.connect("");
 
 // const UserSchema = new mongoose.Schema({
 //   username: String,
@@ -17,7 +15,9 @@ const MessageSchema = new mongoose.Schema({
   message: String,
   senderusername: String,
   recevierusername: String,
-});
+},
+{ timestamps: true }
+);
 const Message = mongoose.model("Message", MessageSchema);
 // const adddata=new Message({
 //   message: "hello b msg from a",
@@ -77,6 +77,7 @@ io.on("connection", async (socket) => {
         receiverusername
       );
       console.log(addMessage);
+      socket.emit("loadprevMessage",addMessage);
     }
   );
 });
