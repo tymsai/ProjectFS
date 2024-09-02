@@ -5,7 +5,7 @@ const socketIo = require("socket.io");
 
 // MongoDB setup
 mongoose.connect(
-  "mongodb+srv://jewihi6927:123456789-=@cluster0.9mvxe.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+  ""
 );
 
 // const UserSchema = new mongoose.Schema({
